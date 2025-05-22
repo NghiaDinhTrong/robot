@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Y Tế Việt Nam: Đề Xuất Phương Án & Sản Phẩm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+        - Aging Population Trend (Report II.A): Bar Chart (Chart.js) - Goal: Inform/Illustrate - Interaction: Tooltips - Justification: Visually represent demographic shift.
+        - GDP/Robot Prices (Report II.B): Text Cards (HTML/Tailwind) - Goal: Inform - Justification: Quick display of key economic figures.
+        - Legal Framework Tables (Report III, Table 2): HTML Table - Goal: Organize/Inform - Justification: Structured presentation of regulations.
+        - Business Model Comparison (Report IV, Table 3): HTML Table - Goal: Compare/Inform - Justification: Clear side-by-side comparison.
+        - Robot Products/Case Studies (Report V, Tables 4 & 5): Interactive Cards (HTML/Tailwind/JS) with Unicode icons (e.g., 📦, 💊, 📞) and links from report - Goal: Organize/Inform/Explore - Interaction: Click to toggle detailed description/links - Justification: Scannable overview with on-demand details, direct access to sources.
+        - Challenges/Solutions (Report VI, Table 6): HTML Table or Accordion (HTML/Tailwind/JS) - Goal: Inform/Organize - Interaction: Expand/collapse for solutions - Justification: Concise presentation of problem-solution pairs.
+        - Roadmap (Report VII.B): Timeline-like structure (HTML/CSS) - Goal: Inform/Illustrate - Justification: Clear visualization of phased development.
+        - CONFIRMING NO SVG graphics used. NO Mermaid JS used. All visuals via Chart.js (Canvas) or HTML/CSS/Unicode. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F2; color: #374151; }
+        .nav-link { transition: all 0.3s ease; }
+        .nav-link.active { color: #F97316; border-bottom: 2px solid #F97316; }
+        .section-title { color: #3B82F6; }
+        .card { background-color: #FFFFFF; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .content-section { display: none; padding-top: 4rem; } /* Added padding-top for sticky header */
+        .content-section.active { display: block; }
+        .details { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
+        .details.open { max-height: 1500px; /* Increased max-height */ }
+        .accordion-button { background-color: #E0E7FF; border: 1px solid #C7D2FE; transition: background-color 0.3s ease; }
+        .accordion-button:hover { background-color: #C7D2FE; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; border-left: 1px solid #C7D2FE; border-right: 1px solid #C7D2FE; border-bottom: 1px solid #C7D2FE; }
+        .tab-button { transition: background-color 0.3s ease, color 0.3s ease; }
+        .tab-button.active { background-color: #3B82F6; color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .table-responsive { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #E5E7EB; }
+        thead th { background-color: #F3F4F6; font-weight: 600; }
+        .feature-icon { margin-right: 0.5rem; color: #F97316; }
+        .robot-image { width: 100%; height: 200px; object-fit: cover; border-radius: 0.25rem; margin-bottom: 0.75rem; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50 w-full">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-blue-600">Robot Y Tế VN</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#tong-quan" class="nav-link text-gray-600 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium active">Tổng Quan</a>
+                        <a href="#phap-ly" class="nav-link text-gray-600 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium">Pháp Lý</a>
+                        <a href="#mo-hinh-kinh-doanh" class="nav-link text-gray-600 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium">Mô Hình KD</a>
+                        <a href="#san-pham" class="nav-link text-gray-600 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium">Sản Phẩm & Đề Xuất</a>
+                        <a href="#thach-thuc" class="nav-link text-gray-600 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium">Thách Thức</a>
+                        <a href="#lo-trinh" class="nav-link text-gray-600 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium">Lộ Trình</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Mở menu chính</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#tong-quan" class="nav-link-mobile text-gray-600 hover:bg-gray-50 hover:text-orange-500 block px-3 py-2 rounded-md text-base font-medium active">Tổng Quan</a>
+                <a href="#phap-ly" class="nav-link-mobile text-gray-600 hover:bg-gray-50 hover:text-orange-500 block px-3 py-2 rounded-md text-base font-medium">Pháp Lý</a>
+                <a href="#mo-hinh-kinh-doanh" class="nav-link-mobile text-gray-600 hover:bg-gray-50 hover:text-orange-500 block px-3 py-2 rounded-md text-base font-medium">Mô Hình KD</a>
+                <a href="#san-pham" class="nav-link-mobile text-gray-600 hover:bg-gray-50 hover:text-orange-500 block px-3 py-2 rounded-md text-base font-medium">Sản Phẩm & Đề Xuất</a>
+                <a href="#thach-thuc" class="nav-link-mobile text-gray-600 hover:bg-gray-50 hover:text-orange-500 block px-3 py-2 rounded-md text-base font-medium">Thách Thức</a>
+                <a href="#lo-trinh" class="nav-link-mobile text-gray-600 hover:bg-gray-50 hover:text-orange-500 block px-3 py-2 rounded-md text-base font-medium">Lộ Trình</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-6">
+        <section id="tong-quan" class="content-section active">
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 text-center section-title">Tổng Quan Thị Trường Robot Y Tế Việt Nam</h1>
+            <p class="mb-8 text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
+                Phần này cung cấp cái nhìn tổng quan về thị trường robot chăm sóc y tế tại Việt Nam, phân tích các yếu tố nhân khẩu học, nhu cầu chăm sóc sức khỏe ngày càng tăng, khả năng chi trả của người dân, cùng với thực trạng hệ thống y tế và cơ sở hạ tầng công nghệ. Đây là nền tảng để hiểu rõ hơn về tiềm năng và thách thức khi triển khai robot y tế.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-12 items-start">
+                <div class="card p-6">
+                    <h2 class="text-2xl font-semibold mb-4 text-blue-600">Xu Hướng Già Hóa Dân Số & Nhu Cầu Chăm Sóc</h2>
+                    <p class="text-gray-700 mb-2"><strong class="font-semibold">Tốc độ già hóa nhanh:</strong> Năm 2019, người từ 60 tuổi trở lên chiếm 11.9% dân số, dự kiến tăng lên >25% vào năm 2050. Việt Nam sẽ bước vào giai đoạn "dân số già" vào năm 2036.[1]</p>
+                    <p class="text-gray-700 mb-2"><strong class="font-semibold">Gánh nặng bệnh tật:</strong> Gần 95% người cao tuổi mắc ít nhất một bệnh mãn tính, trung bình 3 bệnh/người.[2]</p>
+                    <p class="text-gray-700 mb-4"><strong class="font-semibold">Nhu cầu chăm sóc tại nhà:</strong> Cấp bách do khó khăn di chuyển và cần chăm sóc thường xuyên cho bệnh mãn tính.[2]</p>
+                    <div class="chart-container mt-6">
+                        <canvas id="agingPopulationChart"></canvas>
+                    </div>
+                    <p class="mt-3 text-xs text-gray-500 text-center">Biểu đồ thể hiện xu hướng già hóa dân số tại Việt Nam.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="card p-6">
+                        <h2 class="text-xl font-semibold mb-3 text-blue-600">Khả Năng Chi Trả & GDP</h2>
+                        <p class="text-gray-700 mb-2">GDP bình quân đầu người Việt Nam xếp thứ 120 thế giới, thuộc nhóm thu nhập trung bình.[3]</p>
+                        <p class="text-gray-700 mb-2"><strong class="font-semibold">Giá robot còn cao:</strong></p>
+                        <ul class="list-disc list-inside text-gray-700 ml-4">
+                            <li>Pepper: ~450 triệu VNĐ [5]</li>
+                            <li>Robot xe lăn điện thông minh: 259 - 325 triệu VNĐ [4]</li>
+                            <li>RyeeBot: ~120 triệu VNĐ [15]</li>
+                        </ul>
+                        <p class="text-gray-700 mt-2">Giá cao là rào cản lớn, mô hình mua đứt khó khả thi cho đa số. Cần các phương án linh hoạt như cho thuê, trả góp.</p>
+                    </div>
+                    <div class="card p-6">
+                        <h2 class="text-xl font-semibold mb-3 text-blue-600">Hệ Thống Y Tế & Hạ Tầng Công Nghệ</h2>
+                        <p class="text-gray-700 mb-2">Hệ thống y tế có cải tiến nhưng chưa đáp ứng đủ nhu cầu người cao tuổi, thiếu nhân lực và thiết bị hiện đại.[2]</p>
+                        <p class="text-gray-700 mb-2"><strong class="font-semibold">Sẵn sàng ứng dụng công nghệ:</strong></p>
+                        <ul class="list-disc list-inside text-gray-700 ml-4">
+                            <li>BV Đa khoa Tâm Anh: Ứng dụng robot AI mổ não Modus V Synaptive.[16, 17]</li>
+                            <li>AI phổ biến trong chẩn đoán hình ảnh, phân tích gen, hỗ trợ phẫu thuật.[18, 19, 20]</li>
+                        </ul>
+                        <p class="text-gray-700 mt-2">Đầu tư vào công nghệ cao cho thấy định hướng chiến lược, tạo điều kiện cho robot chăm sóc.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="phap-ly" class="content-section">
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 text-center section-title">Khung Pháp Lý và Quy Định Y Tế</h1>
+            <p class="mb-8 text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
+                Phần này trình bày tổng quan về khung pháp lý và các quy định y tế liên quan đến việc triển khai robot chăm sóc tại Việt Nam. Bao gồm các quy định chung về quản lý trang thiết bị y tế, những quy định đặc thù (hoặc còn thiếu) cho robot và AI, cũng như các vấn đề quan trọng về bảo vệ dữ liệu cá nhân và đạo đức AI.
+            </p>
+            
+            <div class="space-y-6">
+                <div class="card">
+                    <button class="accordion-button w-full text-left px-6 py-4 rounded-t-md focus:outline-none">
+                        <h2 class="text-xl font-semibold text-blue-700">A. Quy định chung về quản lý trang thiết bị y tế</h2>
+                    </button>
+                    <div class="accordion-content p-6">
+                        <p class="text-gray-700 mb-2">Nghị định 98/2021/NĐ-CP và các sửa đổi tạo khung pháp lý cơ bản cho quản lý trang thiết bị y tế.[6, 7]</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Số lưu hành có giá trị không thời hạn.[6]</li>
+                            <li>Yêu cầu nghiêm ngặt về chất lượng, an toàn, hiệu quả, truy xuất nguồn gốc.[6]</li>
+                            <li>Thông tin đầy đủ về kỹ thuật, công dụng, nguy cơ.[6]</li>
+                            <li>Phân loại theo mức độ rủi ro (A, B, C, D); ISO 13485 cho sản xuất.[6]</li>
+                            <li>Nhãn mác, hướng dẫn sử dụng tiếng Việt, thông tin bảo hành.[7]</li>
+                        </ul>
+                        <p class="text-gray-700 mt-2">Nền tảng pháp lý này giúp giảm rủi ro cho nhà đầu tư và cung cấp.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <button class="accordion-button w-full text-left px-6 py-4 focus:outline-none">
+                        <h2 class="text-xl font-semibold text-blue-700">B. Quy định đặc thù cho robot và AI trong y tế</h2>
+                    </button>
+                    <div class="accordion-content p-6">
+                        <p class="text-gray-700 mb-2">Quy định đặc thù cho robot và AI y tế đang phát triển, cần cụ thể hóa.</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Nghị định 102/2025/NĐ-CP: Quản lý dữ liệu y tế, an toàn thông tin, bảo vệ dữ liệu cá nhân.[8]</li>
+                            <li>Hợp tác quốc tế (Intel, Meta) để phát triển AI.[8]</li>
+                            <li>Tích hợp AI vào chẩn đoán cần 5-10 năm để hoàn thiện.[20]</li>
+                            <li>Khoảng trống pháp lý: Thiếu quy định chuyên biệt cho robot AI, gây rủi ro về trách nhiệm, minh bạch thuật toán, quyền riêng tư.[23, 10, 14, 24, 25]</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <button class="accordion-button w-full text-left px-6 py-4 rounded-b-md focus:outline-none">
+                        <h2 class="text-xl font-semibold text-blue-700">C. Bảo vệ dữ liệu cá nhân và đạo đức AI</h2>
+                    </button>
+                    <div class="accordion-content p-6">
+                        <p class="text-gray-700 mb-2">Nghị định 13/2023/NĐ-CP: Bảo vệ dữ liệu cá nhân, đặc biệt dữ liệu nhạy cảm (sức khỏe).[9]</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Xử lý dữ liệu khi có sự đồng ý, đảm bảo công bằng, minh bạch.[9]</li>
+                            <li>Thách thức: Robot thu thập lượng lớn dữ liệu nhạy cảm. Cần tuân thủ GDPR, HIPAA, giảm rủi ro vi phạm.[23, 25]</li>
+                            <li>Vấn đề đạo đức: Thiên vị thuật toán, công bằng, khả năng giải thích của AI.[23, 25] Cần đảm bảo AI không phân biệt đối xử, xâm phạm quyền lợi bệnh nhân.[10, 14, 24]</li>
+                        </ul>
+                        <p class="text-gray-700 mt-2">Xây dựng khung pháp lý và đạo đức toàn diện là then chốt để xây dựng niềm tin.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-10 card p-6">
+                <h2 class="text-2xl font-semibold mb-4 text-blue-600 text-center">Bảng 2: Tổng quan các quy định pháp lý chính</h2>
+                <div class="table-responsive">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>Tên văn bản</th>
+                                <th>Cơ quan ban hành</th>
+                                <th>Ngày ban hành</th>
+                                <th class="w-1/3">Phạm vi điều chỉnh</th>
+                                <th class="w-1/3">Yêu cầu liên quan đến robot</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nghị định 98/2021/NĐ-CP và sửa đổi</td>
+                                <td>Chính phủ</td>
+                                <td>08/11/2021</td>
+                                <td>Quản lý trang thiết bị y tế</td>
+                                <td class="text-sm">- Hiệu lực số lưu hành không thời hạn.<br>- Đảm bảo chất lượng, an toàn, hiệu quả, truy xuất nguồn gốc.[6]<br>- Thông tin đầy đủ về kỹ thuật, công dụng, nguy cơ.[6]<br>- Phân loại theo mức độ rủi ro (A, B, C, D).[6]<br>- Yêu cầu ISO 13485 cho sản xuất.[6]<br>- Nhãn mác, HDSD tiếng Việt, thông tin bảo hành.[7]</td>
+                            </tr>
+                            <tr>
+                                <td>Nghị định 102/2025/NĐ-CP</td>
+                                <td>Chính phủ</td>
+                                <td>13/05/2025</td>
+                                <td>Quản lý dữ liệu y tế</td>
+                                <td class="text-sm">- Xây dựng, khai thác dữ liệu y tế phải đảm bảo an toàn thông tin mạng, bảo vệ dữ liệu cá nhân.</td>
+                            </tr>
+                            <tr>
+                                <td>Nghị định 13/2023/NĐ-CP</td>
+                                <td>Chính phủ</td>
+                                <td>17/04/2023</td>
+                                <td>Bảo vệ dữ liệu cá nhân</td>
+                                <td class="text-sm">- Dữ liệu cá nhân chỉ được xử lý khi có sự đồng ý.<br>- Xử lý công bằng, minh bạch, phù hợp pháp luật.<br>- Dữ liệu cá nhân nhạy cảm (sức khỏe) cần được bảo vệ.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="mo-hinh-kinh-doanh" class="content-section">
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 text-center section-title">Các Phương Án Kinh Doanh Tiềm Năng</h1>
+            <p class="mb-8 text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
+                Khám phá các mô hình kinh doanh khả thi cho việc triển khai robot chăm sóc y tế tại Việt Nam. Từ mô hình cho thuê linh hoạt, mô hình mua truyền thống, đến các giải pháp kết hợp và dịch vụ giá trị gia tăng, phần này phân tích ưu nhược điểm và sự phù hợp của từng phương án với bối cảnh thị trường Việt Nam.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-10">
+                <div class="card p-6">
+                    <h2 class="text-xl font-semibold mb-3 text-orange-500">A. Mô hình cho thuê (Rental)</h2>
+                    <p class="text-gray-700 text-sm mb-2">Giảm gánh nặng chi phí ban đầu, phù hợp với khả năng chi trả tại Việt Nam.[26]</p>
+                    <p class="text-gray-700 text-sm mb-2"><strong class="font-semibold">Ví dụ:</strong> PromaxShop (cho thuê robot phục vụ từ 2019), dự án Robocare (đề xuất giá linh hoạt).[26, 27]</p>
+                    <p class="text-700 text-sm"><strong class="font-semibold">Thách thức:</strong> Giá thuê quốc tế còn cao (uBOT-5: 1.500 USD/tuần, robot hình người TQ: ~52.7 triệu VNĐ/ngày).[28, 29] Cần mức giá hợp lý, gói dịch vụ linh hoạt.</p>
+                </div>
+                <div class="card p-6">
+                    <h2 class="text-xl font-semibold mb-3 text-orange-500">B. Mô hình mua (Purchase)</h2>
+                    <p class="text-gray-700 text-sm mb-2">Phù hợp tổ chức (bệnh viện, viện dưỡng lão) hoặc cá nhân có tài chính cao. Quyền sở hữu hoàn toàn, tích hợp sâu.[4, 5, 15]</p>
+                    <p class="text-gray-700 text-sm mb-2"><strong class="font-semibold">Thách thức:</strong> Chi phí đầu tư ban đầu rất cao, là rào cản lớn cho hộ gia đình.[4, 5, 15]</p>
+                    <p class="text-gray-700 text-sm">Cần chính sách trả góp, ưu đãi. Phát triển sản phẩm giá phải chăng hơn trong tương lai.</p>
+                </div>
+                <div class="card p-6">
+                    <h2 class="text-xl font-semibold mb-3 text-orange-500">C. Mô hình kết hợp & Dịch vụ GTGT</h2>
+                    <p class="text-gray-700 text-sm mb-2">Tích hợp dịch vụ (bảo trì, sửa chữa, nâng cấp phần mềm, tư vấn y tế từ xa) để tăng giá trị, giải quyết lo ngại chi phí vận hành.[15, 18, 21, 33, 34]</p>
+                    <p class="text-gray-700 text-sm">Liên kết với tổ chức y tế, công ty bảo hiểm để xây dựng hệ sinh thái sức khỏe thông minh, mô hình thanh toán sáng tạo.[26]</p>
+                </div>
+            </div>
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold mb-4 text-blue-600 text-center">Bảng 3: So sánh các mô hình kinh doanh</h2>
+                <div class="table-responsive">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>Tiêu chí</th>
+                                <th>Mô hình cho thuê</th>
+                                <th>Mô hình mua</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Chi phí ban đầu</strong></td><td>Thấp, dễ tiếp cận [26, 27]</td><td>Cao, yêu cầu đầu tư lớn [4, 5, 15]</td></tr>
+                            <tr><td><strong>Đối tượng mục tiêu</strong></td><td class="text-sm">Hộ gia đình thu nhập trung bình, người muốn thử nghiệm, tổ chức ngân sách hạn chế</td><td class="text-sm">Bệnh viện, viện dưỡng lão, hộ gia đình thu nhập cao, tổ chức muốn sở hữu lâu dài</td></tr>
+                            <tr><td><strong>Quyền sở hữu</strong></td><td>Không sở hữu, chỉ quyền sử dụng</td><td>Sở hữu hoàn toàn</td></tr>
+                            <tr><td><strong>Rủi ro tài chính</strong></td><td>Thấp hơn, chi phí cố định [27]</td><td>Cao hơn, rủi ro khấu hao, lỗi thời</td></tr>
+                            <tr><td><strong>Linh hoạt</strong></td><td>Cao, dễ nâng cấp/thay đổi [27]</td><td>Thấp, khó thay đổi/nâng cấp</td></tr>
+                            <tr><td><strong>Dịch vụ đi kèm</strong></td><td>Thường bao gồm bảo hành, bảo trì [27]</td><td>Có thể yêu cầu mua thêm gói dịch vụ</td></tr>
+                            <tr><td><strong>Ví dụ tại VN</strong></td><td class="text-sm">PromaxShop (robot phục vụ), Robocare (đề xuất) [26, 27]</td><td class="text-sm">PromaxShop (RyeeBot), O-Tech (Enabot), Medical VN (HUCASYSTEM) [15, 35, 36]</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="san-pham" class="content-section">
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 text-center section-title">Sản Phẩm Robot & Đề Xuất cho Thị Trường Việt Nam</h1>
+            <p class="mb-8 text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
+                Phần này giới thiệu các loại robot chăm sóc y tế phù hợp với thị trường Việt Nam, bao gồm robot hỗ trợ y tá trong bệnh viện và các sản phẩm robot tiềm năng để triển khai tại nhà. Đặc biệt, chúng tôi sẽ phân tích các sản phẩm cụ thể, nhà cung cấp tiềm năng, và các trường hợp nghiên cứu điển hình từ cả Việt Nam và Trung Quốc, nhằm đưa ra những đề xuất sản phẩm khả thi cho thị trường Việt Nam.
+            </p>
+
+            <div id="product-tabs" class="mb-6 flex flex-wrap justify-center border-b border-gray-300">
+                <button class="tab-button px-4 py-2 text-gray-600 hover:text-orange-500 font-medium active" data-tab="hospital-robots">Robot Bệnh Viện</button>
+                <button class="tab-button px-4 py-2 text-gray-600 hover:text-orange-500 font-medium" data-tab="home-robots">Robot Tại Nhà (Đề xuất VN)</button>
+                <button class="tab-button px-4 py-2 text-gray-600 hover:text-orange-500 font-medium" data-tab="china-cases">Case Study Trung Quốc</button>
+            </div>
+
+            <div id="hospital-robots" class="tab-content active">
+                <h2 class="text-2xl font-semibold mb-4 text-blue-600">Robot Hỗ Trợ Y Tá Trong Bệnh Viện</h2>
+                <p class="text-gray-700 mb-4">Chức năng chính: Vận chuyển vật tư, thuốc, mẫu xét nghiệm; vệ sinh, khử trùng; hỗ trợ nâng đỡ, di chuyển bệnh nhân.[21, 32, 37]</p>
+                <div id="hospital-robot-cards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <div id="home-robots" class="tab-content">
+                <h2 class="text-2xl font-semibold mb-4 text-blue-600">Robot Hỗ Trợ Người Già Tại Nhà (Đề xuất cho Thị trường Việt Nam)</h2>
+                <p class="text-gray-700 mb-4">Các robot dưới đây được đánh giá có tiềm năng lớn để triển khai tại nhà ở Việt Nam, dựa trên tính năng, chi phí và khả năng thích ứng với văn hóa địa phương. Đặc biệt, "Da Tou A Liang" là một đề xuất nổi bật nhờ thành công đã được chứng minh tại thị trường Trung Quốc và các chức năng phù hợp với nhu cầu chăm sóc tại nhà.</p>
+                <div id="home-robot-cards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+            
+            <div id="china-cases" class="tab-content">
+                <h2 class="text-2xl font-semibold mb-4 text-blue-600">Các Trường Hợp Nghiên Cứu Điển Hình tại Trung Quốc (Bài học kinh nghiệm)</h2>
+                <p class="text-gray-700 mb-4">Trung Quốc là thị trường tiên phong với nhiều bài học kinh nghiệm quý giá. Dân số 65+ tuổi: >216 triệu (15.4% năm 2023).[23, 61] Thị trường robot chăm sóc TQ: 7.9 tỷ NDT (2024), dự kiến 15.9 tỷ NDT (2029).[11, 62] Chính phủ thúc đẩy mạnh mẽ.[63, 64, 61, 65, 13]</p>
+                <div id="china-case-cards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                 <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700">
+                    <p><strong class="font-bold">Bài học từ Trung Quốc:</strong> Chi phí cao và chấp nhận người dùng là thách thức lớn.[11, 30, 34, 13] Cần giải pháp giá sáng tạo và giáo dục thị trường. Công nghệ vẫn ở giai đoạn sơ khai so với robot công nghiệp.[23, 13]</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="thach-thuc" class="content-section">
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 text-center section-title">Thách Thức và Giải Pháp Đề Xuất</h1>
+            <p class="mb-8 text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
+                Phân tích những thách thức chính mà thị trường robot chăm sóc y tế tại Việt Nam đang đối mặt, từ rào cản về công nghệ và chi phí đến các vấn đề về sự chấp nhận của người dùng và văn hóa. Đồng thời, đề xuất các giải pháp chiến lược để vượt qua những khó khăn này.
+            </p>
+            <div class="space-y-6">
+                 <div class="card">
+                    <button class="accordion-button w-full text-left px-6 py-4 rounded-t-md focus:outline-none">
+                        <h2 class="text-xl font-semibold text-blue-700">A. Thách thức về công nghệ và chi phí</h2>
+                    </button>
+                    <div class="accordion-content p-6">
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Giá thành robot cao là rào cản chính.[11, 30, 34, 13, 4, 5, 15]</li>
+                            <li>Công nghệ robot chăm sóc còn ở giai đoạn đầu, cần đột phá về AI, sức mạnh tính toán.[11, 23, 13]</li>
+                            <li>Một số robot còn cần hỗ trợ khởi động, gặp khó khăn trong môi trường phức tạp.[13, 98]</li>
+                            <li>Thiếu hụt nhân lực chất lượng cao về AI, robot tại Việt Nam (150.000 - 200.000 người/năm).[99] Cản trở R&D và giảm chi phí sản xuất trong nước.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card">
+                    <button class="accordion-button w-full text-left px-6 py-4 focus:outline-none">
+                        <h2 class="text-xl font-semibold text-blue-700">B. Thách thức về chấp nhận của người dùng và văn hóa</h2>
+                    </button>
+                    <div class="accordion-content p-6">
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Người cao tuổi có thể e ngại, phản đối sử dụng robot do trải nghiệm kém, thiếu kinh nghiệm công nghệ.[12]</li>
+                            <li>Lo ngại về thiếu tương tác xã hội trực tiếp; robot không thể thay thế hoàn toàn quan hệ con người.[12, 13]</li>
+                            <li>Sự chấp nhận phụ thuộc vào khả năng robot tích hợp hài hòa vào cuộc sống, bổ trợ mối quan hệ xã hội.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-10 card p-6">
+                <h2 class="text-2xl font-semibold mb-4 text-blue-600 text-center">C. Giải pháp đề xuất (Tóm tắt Bảng 6)</h2>
+                <div class="table-responsive">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr><th>Thách thức</th><th>Giải pháp đề xuất</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Giá thành cao</td><td class="text-sm">- Phát triển sản phẩm giá phải chăng.<br>- Chính sách giá linh hoạt (thuê, trả góp).</td></tr>
+                            <tr><td>Hạn chế công nghệ</td><td class="text-sm">- Đẩy mạnh R&D công nghệ lõi (AI, thuật toán).<br>- Hợp tác quốc tế chuyển giao công nghệ.</td></tr>
+                            <tr><td>Thiếu nhân lực</td><td class="text-sm">- Đầu tư đào tạo chuyên sâu AI, robot y tế.<br>- Hợp tác doanh nghiệp - giáo dục, thu hút nhân tài.</td></tr>
+                            <tr><td>E ngại công nghệ</td><td class="text-sm">- Giáo dục thị trường (hội thảo, truyền thông).<br>- Thiết kế robot thân thiện, dễ sử dụng.</td></tr>
+                            <tr><td>Thiếu tương tác xã hội</td><td class="text-sm">- Robot tăng cường tương tác cảm xúc, giao tiếp tự nhiên.<br>- Định vị robot là công cụ bổ trợ.</td></tr>
+                            <tr><td>Khoảng trống pháp lý</td><td class="text-sm">- Xây dựng khung pháp lý chuyên biệt cho robot AI y tế.<br>- Quy tắc đạo đức rõ ràng (quyền riêng tư, bảo mật, trách nhiệm).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="lo-trinh" class="content-section">
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 text-center section-title">Khuyến Nghị và Lộ Trình Triển Khai</h1>
+            <p class="mb-8 text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto">
+                Đề xuất các chiến lược thâm nhập thị trường và một lộ trình phát triển sản phẩm, dịch vụ chi tiết theo từng giai đoạn. Đồng thời, nêu rõ các bước tiếp theo cần thiết để đảm bảo tuân thủ pháp lý và sự chấp nhận của xã hội, nhằm khai thác tối đa tiềm năng của robot chăm sóc y tế tại ViệtNAM.
+            </p>
+            <div class="space-y-8">
+                <div class="card p-6">
+                    <h2 class="text-xl font-semibold mb-3 text-orange-500">A. Khuyến nghị chiến lược thâm nhập thị trường</h2>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Giai đoạn đầu (1-2 năm): Tập trung B2B (bệnh viện, viện dưỡng lão) với robot hỗ trợ y tá (vận chuyển, vệ sinh, nâng đỡ).</li>
+                        <li>Triển khai dự án thí điểm robot chăm sóc tại nhà (đô thị, gia đình thu nhập khá).</li>
+                        <li>Ưu tiên mô hình cho thuê linh hoạt, gói dịch vụ tích hợp (bảo trì, hỗ trợ kỹ thuật).</li>
+                        <li>Sản phẩm tập trung chức năng cốt lõi (nhắc thuốc, giám sát sức khỏe cơ bản, giao tiếp đơn giản), dễ sử dụng.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-semibold mb-4 text-center text-blue-600">B. Lộ trình phát triển sản phẩm và dịch vụ</h2>
+                    <div id="roadmap-tabs" class="mb-4 flex flex-wrap justify-center border-b border-gray-300">
+                        <button class="roadmap-tab-button px-4 py-2 text-gray-600 hover:text-orange-500 font-medium active" data-tab="short-term">Ngắn hạn (1-3 năm)</button>
+                        <button class="roadmap-tab-button px-4 py-2 text-gray-600 hover:text-orange-500 font-medium" data-tab="medium-term">Trung hạn (3-5 năm)</button>
+                        <button class="roadmap-tab-button px-4 py-2 text-gray-600 hover:text-orange-500 font-medium" data-tab="long-term">Dài hạn (5-10 năm)</button>
+                    </div>
+
+                    <div id="short-term" class="roadmap-tab-content active card p-6">
+                        <h3 class="font-semibold text-lg mb-2">Ngắn hạn (1-3 năm)</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            <li><strong>R&D:</strong> AI tiếng Việt (giao tiếp tự nhiên, nhận diện cảm xúc).</li>
+                            <li><strong>Sản phẩm:</strong> Robot "mini", ứng dụng tích hợp trên thiết bị thông minh (tăng tiếp cận, giảm chi phí).</li>
+                            <li><strong>Dịch vụ:</strong> Trung tâm hỗ trợ khách hàng chuyên biệt (kỹ thuật, tư vấn y tế từ xa).</li>
+                        </ul>
+                    </div>
+                    <div id="medium-term" class="roadmap-tab-content card p-6">
+                        <h3 class="font-semibold text-lg mb-2">Trung hạn (3-5 năm)</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            <li><strong>R&D:</strong> Robot hình người, exoskeleton (giảm giá thành), cảm biến y tế tiên tiến (huyết áp, đường huyết, ECG).</li>
+                            <li><strong>Sản phẩm:</strong> Robot hỗ trợ di chuyển phức tạp, vật lý trị liệu tại nhà.</li>
+                            <li><strong>Dịch vụ:</strong> Mở rộng các gói dịch vụ y tế từ xa, và nếu các quy định pháp lý cho phép, kết nối robot với hệ thống bệnh án điện tử.</li>
+                        </ul>
+                    </div>
+                    <div id="long-term" class="roadmap-tab-content card p-6">
+                        <h3 class="font-semibold text-lg mb-2">Dài hạn (5-10 năm)</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            <li><strong>R&D:</strong> Giao diện não-máy tính (BCI), AI đa phương thức (hiểu và phản ứng linh hoạt).</li>
+                            <li><strong>Sản phẩm:</strong> Robot thực hiện các tác vụ chăm sóc cá nhân (tắm rửa, ăn uống) an toàn, riêng tư, đạo đức.</li>
+                            <li><strong>Hệ sinh thái:</strong> Xây dựng một nền tảng dữ liệu y tế an toàn và được quy định chặt chẽ, cho phép robot chia sẻ thông tin với bác sĩ và gia đình một cách hiệu quả.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card p-6">
+                    <h2 class="text-xl font-semibold mb-3 text-orange-500">C. Các bước đảm bảo tuân thủ pháp lý và chấp nhận xã hội</h2>
+                     <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li><strong>Đối thoại chính sách:</strong> Chủ động tham gia vào quá trình xây dựng chính sách, quy định pháp lý cho robot AI y tế (bảo vệ dữ liệu, trách nhiệm, đạo đức).</li>
+                        <li><strong>Thử nghiệm lâm sàng:</strong> Nghiên cứu thí điểm chứng minh hiệu quả, an toàn, mức độ chấp nhận tại Việt Nam.</li>
+                        <li><strong>Giáo dục & Truyền thông:</strong> Chiến dịch nâng cao nhận thức cộng đồng, giải quyết lo ngại về công nghệ.</li>
+                        <li><strong>Đào tạo & Phát triển nhân lực:</strong> Hợp tác đào tạo nguồn nhân lực chất lượng cao về AI, robot, y tế.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center p-6 mt-12">
+        <p>&copy; 2025 Phân Tích Thị Trường Robot Y Tế Việt Nam. Thông tin dựa trên báo cáo tổng hợp.</p>
+        <p class="text-xs mt-1">Ứng dụng được tạo để minh họa và khám phá dữ liệu báo cáo.</p>
+    </footer>
+
+    <script>
+        const agingPopulationCtx = document.getElementById('agingPopulationChart')?.getContext('2d');
+        if (agingPopulationCtx) {
+            new Chart(agingPopulationCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2019', '2036', '2050 (Dự kiến)'],
+                    datasets: [{
+                        label: '% Dân số từ 60 tuổi trở lên',
+                        data: [11.9, null, 25], // 2036 is qualitative, 25% for 2050
+                        backgroundColor: ['#A8D8EA', '#F9A8D4', '#60A5FA'],
+                        borderColor: ['#A8D8EA', '#F9A8D4', '#60A5FA'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Tỷ lệ %' } },
+                        x: { 
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    const label = this.getLabelForValue(value);
+                                    if (label === '2036') return ['2036', '(Bắt đầu giai đoạn', 'dân số già)'];
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + '%';
+                                    } else if (context.label === '2036') {
+                                        return '2036: Bắt đầu giai đoạn dân số già';
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        const hospitalRobotsData = [
+            {
+                name: "Pudu Robotics (Trung Quốc)",
+                distributor: "CTCP Thiết bị và Công nghệ Hướng Nam (VN)",
+                models: "Pudubot 2, BellaBot, KettyBot, FlashBot, HolaBot",
+                functions: "Vận chuyển vật tư, thuốc, mẫu xét nghiệm; làm sạch sàn; dịch vụ lễ tân [38, 39, 41]",
+                deployment: "Rộng rãi trong nhà hàng, khách sạn; hỗ trợ bệnh viện trong COVID-19 [38, 40]. Có hình ảnh Pudubot 2 trong bệnh viện [39].",
+                image: "https://placehold.co/300x200/A8D8EA/333?text=Pudu+Robots",
+                links: [
+                    { text: "VnRobotics (Pudubot 2)", url: "https://vnrobotics.vn/pudubot-2-robot-phuc-vu-nha-hang-khach-san-giao-hang-thong-minh-342524" },
+                    { text: "PuduRobotics Global", url: "http://www.pudurobotics.com/vi/about/intro" }
+                ],
+                features: ["📦 Vận chuyển", "🧹 Làm sạch", "🛎️ Lễ tân"]
+            },
+            {
+                name: "Exoskeleton (Phục hồi chức năng)",
+                distributor: "SIASUN Robot and Automation Co., Ltd. (Trung Quốc)",
+                models: "",
+                functions: "Hỗ trợ đi lại, phục hồi chức năng vận động [45, 46]",
+                deployment: "Đã triển khai thực tế (ví dụ: bệnh nhân đột quỵ ở Thẩm Dương) [45, 46].",
+                image: "https://placehold.co/300x200/A8D8EA/333?text=SIASUN+Exoskeleton",
+                links: [{ text: "SIASUN Global", url: "https://en.siasun.com/" }],
+                features: ["🚶 Hỗ trợ đi lại", "💪 Phục hồi chức năng"]
+            }
+        ];
+
+        const homeRobotsData = [
+            {
+                name: "Da Tou A Liang (Đề xuất cho VN)",
+                distributor: "Jiangsu Aiyuwencheng Pension Robot Co. (Trung Quốc) / Đề xuất phân phối tại VN",
+                models: "Thế hệ 4.0",
+                functions: "Nhắc thuốc, hỗ trợ bữa ăn, phát tin tức, gọi video với gia đình, kiểm tra sức khỏe sơ bộ, gọi khẩn cấp, hỗ trợ mua sắm trực tuyến. Tổng cộng 13 chức năng ứng dụng cho chăm sóc tại nhà, tương tác xã hội và an ninh.",
+                deployment: "Đã triển khai thành công tại Trung Quốc (chăm sóc tại nhà), tiềm năng triển khai tại Việt Nam.",
+                feedback: "Lô hàng đầu tiên hơn 100 chiếc đã 'bán hết nhanh chóng' khi ra mắt thị trường Trung Quốc, cho thấy nhu cầu mạnh mẽ và sự chấp nhận ban đầu.",
+                image: "https://placehold.co/300x200/F9A8D4/333?text=Da+Tou+A+Liang+VN",
+                links: [{ text: "Wuxi Gov (Bài viết gốc)", url: "https://en.wuxi.gov.cn/2025-03/04/c_1074540.htm" }],
+                features: ["💊 Nhắc thuốc", "🍽️ Hỗ trợ bữa ăn", "📞 Gọi video", "🛒 Mua sắm online", "❤️ Giám sát sức khỏe"]
+            },
+           
+        ];
+        
+        const chinaCaseData = [
+            {
+                name: "Tiểu Lệ",
+                developer: "(Không rõ)",
+                functions: "Nhận biết giọng nói (gọi điện, xem TV, tin tức), trợ thủ sức khỏe (kiến nghị ăn uống) [66]",
+                deployment: "Tại nhà (Thạch Gia Trang, Hà Bắc) [66]",
+                feedback: "Tăng hứng thú cuộc sống, tin cậy (theo bà Tống Lệ Hà) [66]",
+                image: "https://placehold.co/300x200/6EE7B7/333?text=Tiểu+Lệ",
+                links: [{ text: "Báo Tin Tức", url: "https://baotintuc.vn/khoa-hoc-doi-song/ai-duong-lao-thiet-bi-thong-minhcham-soc-tuoi-gia-o-trung-quoc-20241021203307142.htm" }],
+                features: ["🗣️ Nhận diện giọng nói", "🥗 Kiến nghị ăn uống"]
+            },
+            {
+                name: "Bé Tây",
+                developer: "Westlake Robotics",
+                functions: "Giao đồ, đồng hành đi dạo, nhắc thuốc, cảnh báo té ngã, theo dõi vị trí [11, 62]",
+                deployment: "Viện dưỡng lão Kim Thu (Hàng Châu, Chiết Giang) [11, 62]",
+                feedback: "Rất phổ biến, giúp người già uống thuốc đúng giờ, cảm thấy an toàn và thu hút sự chú ý [11]",
+                image: "https://placehold.co/300x200/6EE7B7/333?text=Bé+Tây",
+                links: [
+                    { text: "Báo Mới", url: "https://baomoi.com/trung-quoc-su-dung-robot-cham-soc-nguoi-cao-tuoi-c51210715.epi" },
+                    { text: "BJ Review", url: "https://www.bjreview.com/China/202503/t20250324_800396277.html" }
+                ],
+                features: ["📦 Giao đồ", "🚶 Đồng hành", "💊 Nhắc thuốc", "⚠️ Cảnh báo té ngã"]
+            },
+            {
+                name: "Peipei",
+                developer: "Mashang Consumer Finance Co., Ltd.",
+                functions: "Kết bạn cảm xúc thông minh, bảo vệ sức khỏe, giải trí, quản lý hỗ trợ cuộc sống [23]",
+                deployment: "Trung tâm chăm sóc người cao tuổi (Trùng Khánh) [23]",
+                feedback: "Tương tác cảm xúc tinh tế, kiên nhẫn, giúp giảm cô đơn, mở ra cơ hội tiếp xúc công nghệ mới [23]",
+                image: "https://placehold.co/300x200/6EE7B7/333?text=Peipei",
+                links: [{ text: "VTV News", url: "https://vtv.vn/cong-nghe/robot-nhan-viec-cham-soc-nguoi-cao-tuoi-tai-trung-quoc-20250409162542569.htm" }],
+                features: ["😊 Đồng hành cảm xúc", "🛡️ Bảo vệ sức khỏe", "🎮 Giải trí"]
+            },
+            {
+                name: "Robot Exoskeleton (Ant-H1 Pro)",
+                developer: "Kenqing Technology",
+                functions: "Hỗ trợ đi lại, leo núi (đồng bộ hóa chuyển động) [75, 76, 79, 80]",
+                deployment: "Núi Thái Sơn, bán trên Taobao [77, 79, 80]",
+                feedback: "Cảm giác nhẹ nhàng, dễ dàng leo núi, nhu cầu vượt cung cấp [77, 79]",
+                image: "https://placehold.co/300x200/6EE7B7/333?text=Kenqing+Exo",
+                links: [{ text: "Sixth Tone", url: "https://www.sixthtone.com/news/1016685/in-china%2C-tourists-can-take-a-hike-%E2%80%94-or-let-a-robot-do-the-work" }],
+                features: ["🚶 Hỗ trợ đi lại", "⛰️ Hỗ trợ leo núi"]
+            },
+             {
+                name: "Yang Yang",
+                developer: "Chengdu Humanoid Robot Innovation Center",
+                functions: "Đánh thức, cập nhật thời tiết, nhắc nhở hoạt động hàng ngày, mang thuốc, trò chuyện, hỗ trợ tắm [83, 46]",
+                deployment: "Pacific Care Home (Thành Đô) [83, 46]",
+                feedback: "Giúp giảm cô đơn, cầu nối với công nghệ mới [83, 46]",
+                image: "https://placehold.co/300x200/6EE7B7/333?text=Yang+Yang",
+                links: [{ text: "People.cn", url: "http://en.people.cn/n3/2025/0315/c90000-20289827.html" }],
+                features: ["⏰ Đánh thức", "💊 Mang thuốc", "💬 Trò chuyện"]
+            },
+            {
+                name: "Xia Lan",
+                developer: "AgiBot",
+                functions: "Bắt chước biểu cảm, tương tác đa phương thức, nhận diện khuôn mặt, định vị nguồn âm thanh, hỗ trợ cảm xúc [88, 83, 89]",
+                deployment: "Viện dưỡng lão Thâm Quyến [45, 83]",
+                feedback: "Da giống người, mắt chớp, giọng ấm áp, được yêu thích [45, 83]",
+                image: "https://placehold.co/300x200/6EE7B7/333?text=Xia+Lan",
+                links: [{ text: "AgiBot", url: "https://www.agibot.com/" }],
+                features: ["😊 Hỗ trợ cảm xúc", "🤖 Hình người", "🗣️ Tương tác đa phương thức"]
+            },
+            {
+                name: "Xiao Yi",
+                developer: "iFlytek",
+                functions: "Hỗ trợ cảm xúc, trò chuyện tâm lý, sức khỏe; hỗ trợ chẩn đoán y tế [64, 91, 92]",
+                deployment: "Hỗ trợ bác sĩ, trung tâm chăm sóc người cao tuổi [91, 92]",
+                feedback: "Vượt qua kỳ thi y tế quốc gia, hỗ trợ hiệu quả cho bác sĩ [91, 93]",
+                image: "https://placehold.co/300x200/6EE7B7/333?text=Xiao+Yi",
+                links: [{ text: "iFlytek", url: "https://www.iflytek.com/en/" }],
+                features: ["😊 Hỗ trợ cảm xúc", "🩺 Hỗ trợ chẩn đoán"]
+            }
+        ];
+
+        function getFeatureIcon(featureText) {
+            if (featureText.includes('📦') || featureText.toLowerCase().includes('vận chuyển') || featureText.toLowerCase().includes('giao đồ')) return '📦';
+            if (featureText.includes('💊') || featureText.toLowerCase().includes('thuốc')) return '💊';
+            if (featureText.includes('📞') || featureText.toLowerCase().includes('gọi')) return '📞';
+            if (featureText.includes('😊') || featureText.toLowerCase().includes('cảm xúc') || featureText.toLowerCase().includes('đồng hành')) return '�';
+            if (featureText.includes('🚶') || featureText.toLowerCase().includes('di chuyển') || featureText.toLowerCase().includes('đi bộ') || featureText.toLowerCase().includes('đi lại')) return '🚶';
+            if (featureText.includes('🛡️') || featureText.toLowerCase().includes('an toàn') || featureText.toLowerCase().includes('bảo vệ') || featureText.toLowerCase().includes('phát hiện té')) return '🛡️';
+            if (featureText.includes('🧹') || featureText.toLowerCase().includes('làm sạch')) return '🧹';
+            if (featureText.includes('🛎️') || featureText.toLowerCase().includes('lễ tân')) return '🛎️';
+            if (featureText.includes('💪') || featureText.toLowerCase().includes('phục hồi')) return '💪';
+            if (featureText.includes('❤️') || featureText.toLowerCase().includes('sức khỏe')) return '❤️';
+            if (featureText.includes('🗣️') || featureText.toLowerCase().includes('giao tiếp') || featureText.toLowerCase().includes('đàm thoại') || featureText.toLowerCase().includes('giọng nói')) return '🗣️';
+            if (featureText.includes('📹') || featureText.toLowerCase().includes('giám sát')) return '📹';
+            if (featureText.includes('⚠️') || featureText.toLowerCase().includes('cảnh báo')) return '⚠️';
+            if (featureText.includes('🩺') || featureText.toLowerCase().includes('điều trị')) return '🩺';
+            if (featureText.includes('🤖') || featureText.toLowerCase().includes('ai')) return '🤖';
+            if (featureText.includes('🍽️') || featureText.toLowerCase().includes('bữa ăn')) return '🍽️';
+            if (featureText.includes('🛒') || featureText.toLowerCase().includes('mua sắm')) return '🛒';
+            if (featureText.includes('⛰️') || featureText.toLowerCase().includes('leo núi')) return '⛰️';
+            if (featureText.includes('⏰') || featureText.toLowerCase().includes('đánh thức')) return '⏰';
+            if (featureText.includes('💬') || featureText.toLowerCase().includes('trò chuyện')) return '💬';
+            if (featureText.includes('🎮') || featureText.toLowerCase().includes('giải trí')) return '🎮';
+            if (featureText.includes('🥗') || featureText.toLowerCase().includes('ăn uống')) return '🥗';
+            return '➡️';
+        }
+
+        function createRobotCard(robot) {
+            const linksHTML = robot.links.map(link => `<a href="${link.url}" target="_blank" class="text-orange-500 hover:text-orange-600 hover:underline text-xs mr-2">${link.text}</a>`).join('');
+            const featuresHTML = robot.features.map(f => `<li class="flex items-center"><span class="feature-icon">${getFeatureIcon(f)}</span>${f.split(' ').slice(1).join(' ') || f}</li>`).join('');
+
+            return `
+                <div class="card p-5 flex flex-col">
+                    <img src="${robot.image}" alt="${robot.name}" class="robot-image">
+                    <h3 class="text-lg font-semibold mb-1 text-blue-500">${robot.name}</h3>
+                    ${robot.distributor ? `<p class="text-xs text-gray-500 mb-2">Cung cấp/Phát triển: ${robot.distributor}</p>` : ''}
+                    ${robot.developer ? `<p class="text-xs text-gray-500 mb-2">Phát triển: ${robot.developer}</p>` : ''}
+                    ${robot.models ? `<p class="text-xs text-gray-500 mb-2">Model: ${robot.models}</p>` : ''}
+                    
+                    <button class="text-sm text-orange-500 hover:text-orange-600 focus:outline-none self-start toggle-details-btn mt-auto pt-2">Xem chi tiết</button>
+                    <div class="details mt-2 text-xs text-gray-600 space-y-1">
+                        <p><strong class="font-medium">Chức năng chính:</strong> <ul class="list-none mt-1">${featuresHTML}</ul> ${robot.functions ? robot.functions : ''}</p>
+                        ${robot.deployment ? `<p><strong class="font-medium">Triển khai:</strong> ${robot.deployment}</p>` : ''}
+                        ${robot.feedback ? `<p><strong class="font-medium">Phản hồi:</strong> ${robot.feedback}</p>` : ''}
+                        ${robot.links && robot.links.length > 0 ? `<p class="mt-2"><strong class="font-medium">Liên kết:</strong> ${linksHTML}</p>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRobotCards(data, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = data.map(createRobotCard).join('');
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRobotCards(hospitalRobotsData, 'hospital-robot-cards');
+            renderRobotCards(homeRobotsData, 'home-robot-cards');
+            renderRobotCards(chinaCaseData, 'china-case-cards');
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNavLinks = document.querySelectorAll('.nav-link-mobile');
+            const sections = document.querySelectorAll('.content-section');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            function updateActiveLink(targetId) {
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${targetId}`);
+                });
+                mobileNavLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${targetId}`);
+                });
+            }
+            
+            function showSection(targetId, isMobileClick = false) {
+                sections.forEach(section => {
+                    section.classList.toggle('active', section.id === targetId);
+                });
+                updateActiveLink(targetId);
+                if (isMobileClick && mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    mobileMenuButton.querySelector('svg.block').classList.remove('hidden');
+                    mobileMenuButton.querySelector('svg.hidden').classList.add('hidden');
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                    showSection(targetId);
+                });
+            });
+
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                    showSection(targetId, true);
+                });
+            });
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                    mobileMenu.classList.toggle('hidden');
+                    mobileMenuButton.querySelector('svg.block').classList.toggle('hidden');
+                    mobileMenuButton.querySelector('svg.hidden').classList.toggle('hidden');
+                });
+            }
+
+            if(window.location.hash) {
+                const targetId = window.location.hash.substring(1);
+                if (document.getElementById(targetId)) {
+                     showSection(targetId);
+                } else {
+                    showSection('tong-quan');
+                }
+            } else {
+                 showSection('tong-quan');
+            }
+
+            document.body.addEventListener('click', function(event) {
+                if (event.target.classList.contains('toggle-details-btn')) {
+                    const detailsDiv = event.target.nextElementSibling;
+                    detailsDiv.classList.toggle('open');
+                    event.target.textContent = detailsDiv.classList.contains('open') ? 'Ẩn bớt chi tiết' : 'Xem chi tiết';
+                }
+            });
+
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isOpening = !content.style.maxHeight || content.style.maxHeight === "0px";
+                    
+                    // Close other accordions in the same group if needed (optional)
+                    // accordionButtons.forEach(otherButton => {
+                    //     if (otherButton !== button) {
+                    //         otherButton.nextElementSibling.style.maxHeight = "0px";
+                    //     }
+                    // });
+
+                    if (isOpening) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    } else {
+                        content.style.maxHeight = "0px";
+                    }
+                });
+            });
+
+            const productTabButtons = document.querySelectorAll('#product-tabs .tab-button');
+            const productTabContents = document.querySelectorAll('#san-pham .tab-content');
+            productTabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    productTabButtons.forEach(btn => btn.classList.remove('active', 'bg-blue-600', 'text-white'));
+                    button.classList.add('active', 'bg-blue-600', 'text-white');
+                    const tabId = button.getAttribute('data-tab');
+                    productTabContents.forEach(content => {
+                        content.classList.toggle('active', content.id === tabId);
+                    });
+                });
+            });
+            
+            const roadmapTabButtons = document.querySelectorAll('#roadmap-tabs .roadmap-tab-button');
+            const roadmapTabContents = document.querySelectorAll('#lo-trinh .roadmap-tab-content');
+            roadmapTabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    roadmapTabButtons.forEach(btn => btn.classList.remove('active', 'bg-blue-600', 'text-white'));
+                    button.classList.add('active', 'bg-blue-600', 'text-white');
+                    const tabId = button.getAttribute('data-tab');
+                    roadmapTabContents.forEach(content => {
+                        content.classList.toggle('active', content.id === tabId);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
