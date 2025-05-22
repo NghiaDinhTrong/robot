@@ -296,7 +296,7 @@
 
             <div id="home-robots" class="tab-content">
                 <h2 class="text-2xl font-semibold mb-4 text-blue-600">Robot Hỗ Trợ Người Già Tại Nhà (Đề xuất cho Thị trường Việt Nam)</h2>
-                <p class="text-gray-700 mb-4">Các robot dưới đây được đánh giá có tiềm năng lớn để triển khai tại nhà ở Việt Nam, dựa trên tính năng, chi phí và khả năng thích ứng với văn hóa địa phương. Đặc biệt, "Da Tou A Liang" là một đề xuất nổi bật nhờ thành công đã được chứng minh tại thị trường Trung Quốc và các chức năng phù hợp với nhu cầu chăm sóc tại nhà.</p>
+                <p class="text-gray-700 mb-4">Các robot dưới đây được đánh giá có tiềm năng lớn để triển khai tại nhà ở Việt Nam, dựa trên tính năng, chi phí và khả năng thích ứng với văn hóa địa phương. Các sản phẩm này hiện chưa được phân phối rộng rãi tại Việt Nam, mang lại cơ hội thâm nhập thị trường.</p>
                 <div id="home-robot-cards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
             
@@ -504,23 +504,80 @@
                 deployment: "Đã triển khai thực tế (ví dụ: bệnh nhân đột quỵ ở Thẩm Dương) [45, 46].",
                 image: "https://placehold.co/300x200/A8D8EA/333?text=SIASUN+Exoskeleton",
                 links: [{ text: "SIASUN Global", url: "https://en.siasun.com/" }],
-                features: ["🚶 Hỗ trợ đi lại", "💪 Phục hồi chức năng"]
+                features: ["� Hỗ trợ đi lại", "💪 Phục hồi chức năng"]
             }
         ];
 
         const homeRobotsData = [
             {
-                name: "Da Tou A Liang (Đề xuất cho VN)",
-                distributor: "Jiangsu Aiyuwencheng Pension Robot Co. (Trung Quốc) / Đề xuất phân phối tại VN",
+                name: "Da Tou A Liang (大头阿良)",
+                distributor: "Jiangsu Aiyuwencheng Pension Robot Co., Ltd (Trung Quốc) / Đề xuất phân phối tại VN",
                 models: "Thế hệ 4.0",
-                functions: "Nhắc thuốc, hỗ trợ bữa ăn, phát tin tức, gọi video với gia đình, kiểm tra sức khỏe sơ bộ, gọi khẩn cấp, hỗ trợ mua sắm trực tuyến. Tổng cộng 13 chức năng ứng dụng cho chăm sóc tại nhà, tương tác xã hội và an ninh.",
+                functions: "Di chuyển liên tục trong phạm vi có thể nhìn thấy của người cao tuổi; Nhắc nhở uống thuốc, hỗ trợ bữa ăn, phát lại tin tức; Hỗ trợ gọi video với gia đình; Kiểm tra sức khỏe sơ bộ, gọi khẩn cấp; Hỗ trợ mua sắm trực tuyến.",
                 deployment: "Đã triển khai thành công tại Trung Quốc (chăm sóc tại nhà), tiềm năng triển khai tại Việt Nam.",
                 feedback: "Lô hàng đầu tiên hơn 100 chiếc đã 'bán hết nhanh chóng' khi ra mắt thị trường Trung Quốc, cho thấy nhu cầu mạnh mẽ và sự chấp nhận ban đầu.",
                 image: "https://placehold.co/300x200/F9A8D4/333?text=Da+Tou+A+Liang+VN",
-                links: [{ text: "Wuxi Gov (Bài viết gốc)", url: "https://en.wuxi.gov.cn/2025-03/04/c_1074540.htm" }],
-                features: ["💊 Nhắc thuốc", "🍽️ Hỗ trợ bữa ăn", "📞 Gọi video", "🛒 Mua sắm online", "❤️ Giám sát sức khỏe"]
+                links: [{ text: "Trang web chính thức", url: "https://en.dtalai.com/" }],
+                features: ["🚶 Di chuyển", "💊 Nhắc thuốc", "🍽️ Hỗ trợ bữa ăn", "📞 Gọi video", "❤️ Giám sát sức khỏe", "🛒 Mua sắm online"]
             },
-           
+            {
+                name: "Xiaoxi (小西)",
+                distributor: "Westlake Robotics, Hangzhou, Trung Quốc / Đề xuất phân phối tại VN",
+                models: "",
+                functions: "Nhắc nhở uống thuốc, hỗ trợ bữa ăn; Phát lại tin tức, hỗ trợ gọi video với gia đình; Kiểm tra sức khỏe sơ bộ, gọi khẩn cấp; Hỗ trợ mua sắm trực tuyến.",
+                deployment: "Đã triển khai tại Viện dưỡng lão Kim Thu ở Hàng Châu, Trung Quốc. Tiềm năng triển khai tại Việt Nam.",
+                feedback: "Rất phổ biến, giúp người già uống thuốc đúng giờ, cảm thấy an toàn và thu hút sự chú ý.",
+                image: "https://placehold.co/300x200/F9A8D4/333?text=Xiaoxi+VN",
+                links: [{ text: "eHangzhou.gov.cn", url: "https://www.ehangzhou.gov.cn/2025-03/12/c_292931.htm" }],
+                features: ["💊 Nhắc thuốc", "🍽️ Hỗ trợ bữa ăn", "📰 Tin tức", "📞 Gọi video", "❤️ Giám sát sức khỏe", "🛒 Mua sắm online"]
+            },
+            {
+                name: "P-Care",
+                distributor: "Zhongrui Funing Robotics Co., Ltd, Shenyang, Trung Quốc / Đề xuất phân phối tại VN",
+                models: "",
+                functions: "Di chuyển trong nhà; Nhắc nhở uống thuốc, hỗ trợ bữa ăn; Phát lại tin tức, hỗ trợ gọi video với gia đình; Kiểm tra sức khỏe sơ bộ, gọi khẩn cấp; Hỗ trợ mua sắm trực tuyến.",
+                deployment: "Đã triển khai tại Trung Quốc. Tiềm năng triển khai tại Việt Nam.",
+                feedback: "Được sử dụng để chăm sóc người cao tuổi tại Trung Quốc.",
+                image: "https://placehold.co/300x200/F9A8D4/333?text=P-Care+VN",
+                links: [{ text: "Xinhua", url: "https://www.xinhuanet.com/english/2018-08/18/c_137399483.htm" }],
+                features: ["🚶 Di chuyển", "💊 Nhắc thuốc", "🍽️ Hỗ trợ bữa ăn", "📰 Tin tức", "📞 Gọi video", "❤️ Giám sát sức khỏe", "🛒 Mua sắm online"]
+            },
+            {
+                name: "HomeMate",
+                distributor: "Dự án nghiên cứu tại Trung Quốc / Đề xuất phân phối tại VN",
+                models: "",
+                functions: "Di chuyển trong nhà; Nhắc nhở uống thuốc, hỗ trợ bữa ăn; Phát lại tin tức, hỗ trợ gọi video với gia đình; Kiểm tra sức khỏe sơ bộ, gọi khẩn cấp; Hỗ trợ mua sắm trực tuyến.",
+                deployment: "Dự án nghiên cứu tại Trung Quốc. Tiềm năng triển khai tại Việt Nam.",
+                feedback: "Nghiên cứu tập trung vào việc thúc đẩy chăm sóc sức khỏe thông qua hợp tác di động.",
+                image: "https://placehold.co/300x200/F9A8D4/333?text=HomeMate+VN",
+                links: [{ text: "Frontiers", url: "https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2024.1368805/full" }],
+                features: ["🚶 Di chuyển", "💊 Nhắc thuốc", "🍽️ Hỗ trợ bữa ăn", "📰 Tin tức", "📞 Gọi video", "❤️ Giám sát sức khỏe", "🛒 Mua sắm online"]
+            },
+            {
+                name: "Kompa",
+                distributor: "Dự án nghiên cứu tại Trung Quốc / Đề xuất phân phối tại VN",
+                models: "",
+                functions: "Nhắc nhở uống thuốc, hỗ trợ bữa ăn; Phát lại tin tức, hỗ trợ gọi video với gia đình; Kiểm tra sức khỏe sơ bộ, gọi khẩn cấp; Hỗ trợ mua sắm trực tuyến.",
+                deployment: "Dự án nghiên cứu tại Trung Quốc. Tiềm năng triển khai tại Việt Nam.",
+                feedback: "Nghiên cứu về ứng dụng mạng 5G kết hợp với robot AI trong điều dưỡng cá nhân hóa tại Trung Quốc.",
+                image: "https://placehold.co/300x200/F9A8D4/333?text=Kompa+VN",
+                links: [{ text: "PMC", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9449115/" }],
+                features: ["💊 Nhắc thuốc", "🍽️ Hỗ trợ bữa ăn", "📰 Tin tức", "📞 Gọi video", "❤️ Giám sát sức khỏe", "🛒 Mua sắm online"]
+            },
+            {
+                name: "Robocare",
+                distributor: "SixFlames (Sinh viên FPT Việt Nam)",
+                models: "",
+                functions: "Nhắc thuốc, theo dõi sức khỏe, nhận diện cảm xúc, giao tiếp tự nhiên, bảo mật dữ liệu, thiết kế gọn nhẹ. Phiên bản mini trên điện thoại, đồng hồ thông minh.",
+                deployment: "Dự án đang phát triển, chưa thương mại hóa rộng rãi.",
+                image: "https://placehold.co/300x200/F9A8D4/333?text=Robocare",
+                links: [
+                    { text: "Bài viết FPT Edu", url: "https://qhdn-hcmuni.fpt.edu.vn/2025/04/14/robocare-robot-dong-hanh-cung-suc-khoe-nguoi-cao-tuoi-tai-nha/" },
+                    { text: "Figma Website MVP", url: "https://www.figma.com/design/KQZHku5LJy87KLLq5Y1uEn/EXE101---Figma?node-id=2480-844&t=yaa2YVPd9T3Kf1PM-0"},
+                    { text: "Figma Mobile App MVP", url: "https://www.figma.com/design/KQZHku5LJy87KLLq5Y1uEn/EXE101---Figma?node-id=0-1&p=f&t=yaa2YVPd9T3Kf1PM-0"}
+                ],
+                features: ["💊 Nhắc thuốc", "❤️ Theo dõi sức khỏe", "😊 Nhận diện cảm xúc", "🗣️ Giao tiếp"]
+            }
         ];
         
         const chinaCaseData = [
@@ -533,19 +590,6 @@
                 image: "https://placehold.co/300x200/6EE7B7/333?text=Tiểu+Lệ",
                 links: [{ text: "Báo Tin Tức", url: "https://baotintuc.vn/khoa-hoc-doi-song/ai-duong-lao-thiet-bi-thong-minhcham-soc-tuoi-gia-o-trung-quoc-20241021203307142.htm" }],
                 features: ["🗣️ Nhận diện giọng nói", "🥗 Kiến nghị ăn uống"]
-            },
-            {
-                name: "Bé Tây",
-                developer: "Westlake Robotics",
-                functions: "Giao đồ, đồng hành đi dạo, nhắc thuốc, cảnh báo té ngã, theo dõi vị trí [11, 62]",
-                deployment: "Viện dưỡng lão Kim Thu (Hàng Châu, Chiết Giang) [11, 62]",
-                feedback: "Rất phổ biến, giúp người già uống thuốc đúng giờ, cảm thấy an toàn và thu hút sự chú ý [11]",
-                image: "https://placehold.co/300x200/6EE7B7/333?text=Bé+Tây",
-                links: [
-                    { text: "Báo Mới", url: "https://baomoi.com/trung-quoc-su-dung-robot-cham-soc-nguoi-cao-tuoi-c51210715.epi" },
-                    { text: "BJ Review", url: "https://www.bjreview.com/China/202503/t20250324_800396277.html" }
-                ],
-                features: ["📦 Giao đồ", "🚶 Đồng hành", "💊 Nhắc thuốc", "⚠️ Cảnh báo té ngã"]
             },
             {
                 name: "Peipei",
@@ -603,7 +647,7 @@
             if (featureText.includes('📦') || featureText.toLowerCase().includes('vận chuyển') || featureText.toLowerCase().includes('giao đồ')) return '📦';
             if (featureText.includes('💊') || featureText.toLowerCase().includes('thuốc')) return '💊';
             if (featureText.includes('📞') || featureText.toLowerCase().includes('gọi')) return '📞';
-            if (featureText.includes('😊') || featureText.toLowerCase().includes('cảm xúc') || featureText.toLowerCase().includes('đồng hành')) return '�';
+            if (featureText.includes('😊') || featureText.toLowerCase().includes('cảm xúc') || featureText.toLowerCase().includes('đồng hành')) return '😊';
             if (featureText.includes('🚶') || featureText.toLowerCase().includes('di chuyển') || featureText.toLowerCase().includes('đi bộ') || featureText.toLowerCase().includes('đi lại')) return '🚶';
             if (featureText.includes('🛡️') || featureText.toLowerCase().includes('an toàn') || featureText.toLowerCase().includes('bảo vệ') || featureText.toLowerCase().includes('phát hiện té')) return '🛡️';
             if (featureText.includes('🧹') || featureText.toLowerCase().includes('làm sạch')) return '🧹';
@@ -622,6 +666,7 @@
             if (featureText.includes('💬') || featureText.toLowerCase().includes('trò chuyện')) return '💬';
             if (featureText.includes('🎮') || featureText.toLowerCase().includes('giải trí')) return '🎮';
             if (featureText.includes('🥗') || featureText.toLowerCase().includes('ăn uống')) return '🥗';
+            if (featureText.includes('📰') || featureText.toLowerCase().includes('tin tức')) return '📰';
             return '➡️';
         }
 
